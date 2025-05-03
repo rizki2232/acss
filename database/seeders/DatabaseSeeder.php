@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             BrandCarModelSeeder::class,
             CarSeeder::class,
             OwnerSeeder::class,
-            CarOwnerSeeder::class,
-            CarMovementSeeder::class,
+            // CarOwnerSeeder::class,
+            // CarMovementSeeder::class,
         ]);
     }
 }
