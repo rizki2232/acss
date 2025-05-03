@@ -17,9 +17,9 @@
         </a>
     </div>
     <div class="">
-        <div class="mb-2 flex justify-between">
-            <span class="text-sm py-1 px-2 bg-blue-200">Berita Terbaru</span>
-            <span class="ml-2 text-sm">{{ \Carbon\Carbon::parse($post['date'])->format('F j, Y') }}</span>
+        <div class="mb-2 flex justify-between items-center">
+            <span class="text-sm py-1 px-2 bg-blue-200 rounded-xs">Berita Terbaru</span>
+            <span class="ml-2 text-xs">{{ \Carbon\Carbon::parse($post['date'])->format('d M Y') }}</span>
         </div>
         <a href="" class="hover:underline">
             <h3 class="text-3xl font-semibold">{{ $post['title'] }}</h3>

@@ -1,4 +1,4 @@
-<header x-data="{ navOpen: false }" class="fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-primary backdrop-blur-sm shadow dark:bg-neutral-800 dark:border-neutral-700">
+<header x-data="{ navOpen: false }" class="fixed top-0 left-0 right-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-primary backdrop-blur-sm shadow">
     <nav class="relative max-w-7xl w-full mx-auto md:flex md:items-center md:justify-between md:gap-3 py-2 px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center gap-x-1">
             <a href="index.php" class="relative mr-6">
