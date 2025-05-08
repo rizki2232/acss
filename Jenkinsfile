@@ -1,8 +1,8 @@
-pipeline{
-    agents any
-    stages{
-        stage('hello'){
-            steps{
+pipeline {
+    agent any
+    stages {
+        stage('hello') {
+            steps {
                 echo 'echo hello world'
             }
         }
