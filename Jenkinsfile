@@ -15,7 +15,7 @@ pipeline {
 
         stage('Install Composer') {
             steps {
-                sh 'composer install'
+                sh 'composer install --ignore-platform-req=ext-intl --ignore-platform-req=ext-zip'
             }
         }
 
