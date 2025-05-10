@@ -2,48 +2,32 @@ pipeline {
     agent any
 
     environment {
-        COMPOSER_HOME = '$HOME/.composer'
+        APP_ENV = 'local'
     }
 
     stages {
-        stage('Install Dependencies') {
-        agent {
-                docker {
-                    image 'php:8.1-fpm-alpine'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
+        stage('Clone Repo') {
             steps {
-                sh 'apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev'
-                sh 'docker-php-ext-install gd pdo pdo_mysql'
-                sh 'composer install --prefer-dist --no-interaction'
+                git 'https://github.com/rizki2232/acss.git'
             }
         }
 
-        stage('Run Tests') {
-            agent {
-                docker {
-                    image 'php:8.1-fpm-alpine'
-                    reuseNode true
-                }
-            }
+        stage('Install Composer') {
             steps {
-                sh 'vendor/bin/phpunit --config phpunit.xml'
+                sh 'composer install'
             }
         }
 
-        stage('Build Assets') {
-            agent any  // Langsung gunakan host (tanpa Docker)
+        stage('Setup .env & Key') {
             steps {
-                sh 'npm install && npm run dev'  // Pastikan Node.js terinstal di host
+                sh 'cp .env.example .env'
+                sh 'php artisan key:generate'
             }
         }
 
-        stage('Deploy') {
+        stage('Test') {
             steps {
-                sshagent(['deploy-key']) {
-                    sh 'rsync -avz ./ user@production-server:/var/www/app'
-                }
+                sh 'php artisan test'
             }
         }
     }
