@@ -7,11 +7,10 @@ pipeline {
 
     stages {
         stage('Install Dependencies') {
-            agent {
+        agent {
                 docker {
                     image 'php:8.1-fpm-alpine'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'  // Untuk macOS/Windows
-                    reuseNode true
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
                 }
             }
             steps {
