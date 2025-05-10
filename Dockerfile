@@ -2,16 +2,22 @@ FROM jenkins/jenkins:lts
 
 USER root
 
-# Install PHP 8.2, Composer, dan ekstensi yang dibutuhkan
+# Install tools dan PHP 8.3 + Composer
 RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    libicu-dev \
-    zip \
+    curl \
+    php8.3 \
+    php8.3-cli \
+    php8.3-mbstring \
+    php8.3-xml \
+    php8.3-zip \
+    php8.3-intl \
+    php8.3-curl \
+    php8.3-mysql \
     unzip \
-    && docker-php-ext-install zip intl
+    git \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-# Pastikan Composer bisa dijalankan
-RUN composer --version
+# Cek versi
+RUN php -v && composer --version
 
 USER jenkins
