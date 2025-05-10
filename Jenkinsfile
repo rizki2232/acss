@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Menetapkan variabel lingkungan untuk PHP dan Composer
         COMPOSER_HOME = '$HOME/.composer'
     }
 
@@ -11,22 +10,14 @@ pipeline {
             agent {
                 docker {
                     image 'php:8.1-fpm-alpine'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'  // Untuk macOS/Windows
                     reuseNode true
                 }
             }
             steps {
-                script {
-                    // Install PHP extension untuk Composer dan dependensi lainnya
-                    sh '''
-                        apk add --no-cache --virtual .build-deps \
-                            libpng-dev libjpeg-turbo-dev libfreetype6-dev \
-                            && docker-php-ext-configure gd --with-freetype --with-jpeg \
-                            && docker-php-ext-install gd \
-                            && apk del .build-deps
-                    '''
-                    // Menjalankan Composer untuk install dependensi Laravel
-                    sh 'composer install --prefer-dist --no-interaction'
-                }
+                sh 'apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev'
+                sh 'docker-php-ext-install gd pdo pdo_mysql'
+                sh 'composer install --prefer-dist --no-interaction'
             }
         }
 
@@ -38,31 +29,22 @@ pipeline {
                 }
             }
             steps {
-                // Menjalankan unit tests menggunakan PHPUnit
                 sh 'vendor/bin/phpunit --config phpunit.xml'
             }
         }
 
         stage('Build Assets') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
+            agent any  // Langsung gunakan host (tanpa Docker)
             steps {
-                // Menjalankan build frontend jika menggunakan Laravel Mix (npm)
-                sh '''
-                    npm install
-                    npm run dev
-                '''
+                sh 'npm install && npm run dev'  // Pastikan Node.js terinstal di host
             }
         }
 
         stage('Deploy') {
             steps {
-                // Menjalankan perintah deploy, seperti upload ke server atau cloud
-                echo 'Deploy to production'
+                sshagent(['deploy-key']) {
+                    sh 'rsync -avz ./ user@production-server:/var/www/app'
+                }
             }
         }
     }
