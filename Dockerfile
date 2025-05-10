@@ -2,9 +2,11 @@ FROM jenkins/jenkins:lts
 
 USER root
 
-# Install tools dan PHP 8.3 + Composer
+# Tambah repository PHP 8.3 (ondrej/php) lalu install PHP 8.3 + ekstensi + Composer
 RUN apt-get update && apt-get install -y \
-    curl \
+    software-properties-common curl unzip git \
+    && add-apt-repository ppa:ondrej/php -y \
+    && apt-get update && apt-get install -y \
     php8.3 \
     php8.3-cli \
     php8.3-mbstring \
@@ -13,11 +15,9 @@ RUN apt-get update && apt-get install -y \
     php8.3-intl \
     php8.3-curl \
     php8.3-mysql \
-    unzip \
-    git \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Cek versi
+# Cek versi PHP & Composer
 RUN php -v && composer --version
 
 USER jenkins
