@@ -3,12 +3,13 @@ pipeline {
 
     environment {
         APP_ENV = 'local'
+        COMPOSER_CACHE_DIR = "$HOME/.composer-cache"
     }
 
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/rizki2232/acss.git'
+                git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
             }
         }
 
