@@ -16,14 +16,16 @@ class Car extends Model
     {
         return $this->belongsTo(CarModel::class);
     }
+    public function carMovements()
+    {
+        return $this->hasMany(\App\Models\CarMovement::class, 'car_id');
+    }
+
 
     public function movements()
     {
         return $this->hasMany(CarMovement::class);
     }
 
-    public function carOwners()
-    {
-        return $this->hasMany(CarOwner::class);
-    }
+
 }

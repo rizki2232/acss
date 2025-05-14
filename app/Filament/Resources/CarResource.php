@@ -23,15 +23,20 @@ class CarResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('car_model_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('car_model_id')
+                    ->label('Model Mobil')
+                    ->options(function () {
+                        return \App\Models\CarModel::with('brand')->get()->mapWithKeys(function ($model) {
+                            return [$model->id => $model->brand->name . ' - ' . $model->name];
+                        });
+                    })
+                    ->searchable()
+                    ->required(),
                 Forms\Components\TextInput::make('color')
                     ->required(),
                 Forms\Components\TextInput::make('year')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('license_plate'),
             ]);
     }
 
@@ -39,19 +44,29 @@ class CarResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('carModel.brand.name')
+                    ->label('Brand')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('carModel.name')
-                    ->numeric()
+                    ->label('Model')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('color')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('year')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('license_plate')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('stock')
+                    ->label('Jumlah')
+                    ->getStateUsing(function ($record) {
+                        $in = $record->carMovements()->where('type', 'in')->sum('amount');
+                        $out = $record->carMovements()->where('type', 'out')->sum('amount');
+                        return $in - $out;
+                    }),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -75,6 +90,11 @@ class CarResource extends Resource
         return [
             //
         ];
+    }
+
+    public function carMovements()
+    {
+        return $this->hasMany(\App\Models\CarMovement::class);
     }
 
     public static function getPages(): array

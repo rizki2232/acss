@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -47,6 +48,11 @@ class CarMovementResource extends Resource
                             ->label('Movement Date & Time')
                             ->required()
                             ->default(now()),
+                        Forms\Components\TextInput::make('amount')
+                            ->label('Jumlah Mobil')
+                            ->numeric()
+                            ->required(),
+
                     ])
                     ->columnSpanFull(),
             ]);
@@ -55,23 +61,45 @@ class CarMovementResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
             ->columns([
-                Tables\Columns\TextColumn::make('car.carModel.name')
+                // Nama model mobil
+                TextColumn::make('car.carModel.name')
+                    ->label('Model')
+                    ->sortable()
+                    ->searchable(),
+
+                // Merek mobil (brand)
+                TextColumn::make('car.carModel.brand.name')
+                    ->label('Brand')
+                    ->sortable()
+                    ->searchable(),
+
+                // Warna mobil
+                TextColumn::make('car.color')
+                    ->label('Color')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+
+                // Tahun mobil
+                TextColumn::make('car.year')
+                    ->label('Year')
+                    ->sortable(),
+
+                // Jumlah mobil dalam pergerakan
+                TextColumn::make('amount')
+                    ->label('Jumlah Mobil')
+                    ->sortable(),
+
+                // Tipe pergerakan (in/out)
+                TextColumn::make('type')
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('moved_at')
+
+                // Tanggal pergerakan
+                TextColumn::make('moved_at')
+                    ->label('Moved At')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
