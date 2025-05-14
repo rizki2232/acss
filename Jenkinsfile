@@ -18,14 +18,22 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh "docker build -t $APP_NAME ."
+                script {
+                    try {
+                        sh "docker build -t $APP_NAME ."
+                    } catch (e) {
+                        error "Docker build failed: ${e.message}"
+                    }
+                }
             }
         }
 
         stage('Stop Old Container') {
             steps {
                 echo 'Stopping and removing old container (if exists)...'
-                sh "docker rm -f $CONTAINER_NAME || true"
+                script {
+                    sh "docker ps -q --filter name=$CONTAINER_NAME | grep -q . && docker rm -f $CONTAINER_NAME || echo 'No existing container to stop.'"
+                }
             }
         }
 
@@ -39,10 +47,10 @@ pipeline {
 
     post {
         success {
-            echo "Deployment successful. Visit http://<ip-server>:$PORT"
+            echo "✅ Deployment successful. Visit: http://<ip-server>:$PORT"
         }
         failure {
-            echo "Something went wrong!"
+            echo "❌ Deployment failed! Check logs for details."
         }
     }
 }
