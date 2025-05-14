@@ -16,11 +16,12 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                echo 'Building Docker image...'
-                sh "docker build -t $APP_NAME ."
-            }
+        steps {
+            echo 'Building Docker image...'
+            bat "docker build -t %APP_NAME% ."
         }
+    }
+
 
         stage('Stop Old Container') {
             steps {
