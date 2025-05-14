@@ -1,23 +1,21 @@
-FROM jenkins/jenkins:lts
+FROM php:8.2-fpm
 
-USER root
+WORKDIR /var/www
 
-# Tambah repository PHP 8.3 (ondrej/php) lalu install PHP 8.3 + ekstensi + Composer
 RUN apt-get update && apt-get install -y \
-    software-properties-common curl unzip git \
-    && add-apt-repository ppa:ondrej/php -y \
-    && apt-get update && apt-get install -y \
-    php8.3 \
-    php8.3-cli \
-    php8.3-mbstring \
-    php8.3-xml \
-    php8.3-zip \
-    php8.3-intl \
-    php8.3-curl \
-    php8.3-mysql \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    && docker-php-ext-install pdo pdo_mysql
 
-# Cek versi PHP & Composer
-RUN php -v && composer --version
+COPY . .
 
-USER jenkins
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    composer install
+
+CMD php artisan serve --host=0.0.0.0 --port=8000

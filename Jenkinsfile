@@ -2,34 +2,47 @@ pipeline {
     agent any
 
     environment {
-        APP_ENV = 'local'
-        COMPOSER_CACHE_DIR = "$HOME/.composer-cache"
+        APP_NAME = 'laravel-app'
+        CONTAINER_NAME = 'laravel-running'
+        PORT = '8000'
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Clone Source') {
             steps {
-                git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
+                echo 'Cloning repository...'
+                git branch: 'main', url: 'https://github.com/gengtzy/laravel.git'
             }
         }
 
-        stage('Install Composer') {
+        stage('Build Docker Image') {
             steps {
-                sh 'composer install --ignore-platform-req=ext-intl --ignore-platform-req=ext-zip'
+                echo 'Building Docker image...'
+                sh "docker build -t $APP_NAME ."
             }
         }
 
-        stage('Setup .env & Key') {
+        stage('Stop Old Container') {
             steps {
-                sh 'cp .env.example .env'
-                sh 'php artisan key:generate'
+                echo 'Stopping and removing old container (if exists)...'
+                sh "docker rm -f $CONTAINER_NAME || true"
             }
         }
 
-        stage('Test') {
+        stage('Run New Container') {
             steps {
-                sh 'php artisan test'
+                echo 'Running new container...'
+                sh "docker run -d -p $PORT:8000 --name $CONTAINER_NAME $APP_NAME"
             }
         }
     }
+
+    post {
+        success {
+            echo "Deployment successful. Visit http://<ip-server>:$PORT"
+        }
+        failure {
+            echo "Something went wrong!"
+        }
+    }
 }
