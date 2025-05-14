@@ -43,6 +43,6 @@ pipeline {
         }
         failure {
             echo "Something went wrong!"
-        }
-    }
+        }
+    }
 }
