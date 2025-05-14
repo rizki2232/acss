@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'docker build -t my_image .'
+                sh "docker build -t $APP_NAME ."
             }
         }
 
@@ -43,6 +43,6 @@ pipeline {
         }
         failure {
             echo "Something went wrong!"
-        }
-    }
+        }
+    }
 }
