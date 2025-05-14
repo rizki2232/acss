@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'acss'
+        APP_NAME = 'ACS'
         CONTAINER_NAME = 'laravel-running'
         PORT = '8000'
     }
