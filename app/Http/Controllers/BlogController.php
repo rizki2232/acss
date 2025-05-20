@@ -3,67 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Posts;
+
 
 class BlogController extends Controller
 {
-    public function index() {
-        $post_latest = [
-            'title' => 'Post Populer',
-            'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-        ];
+    public function index()
+    {
+        $posts = Posts::whereNotNull('published_at')->orderBy('published_at', 'desc')->paginate(5);
 
-        $post_highlight = [
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-        ];
+        return view('blog.all-post', compact('posts'));
+    }
 
-        $posts = [
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-            [
-                'title' => 'Post Pertama',
-                'date' => '27-04-2025',
-            'description' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem neque quisquam maxime expedita inventore velit sunt animi sint, error soluta.',
-            ],
-        ];
-
-        return view('blog.all-post', compact('post_latest', 'post_highlight', 'posts'));
+    public function show($slug)
+    {
+        $post = Posts::where('slug', $slug)->firstOrFail();
+        return view('blog.detailPost', compact('post'));
     }
 }

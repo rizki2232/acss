@@ -12,6 +12,12 @@ Route::controller(GuestController::class)->group(function() {
     Route::get('/', 'index')->name('guest.home');
 });
 
-Route::controller(BlogController::class)->group(function() {
-    Route::get('/blogs', 'index')->name('guest.blog.all');
-});
+// Route::controller(BlogController::class)->group(function() {
+//     Route::get('/blogs', 'index')->name('guest.blog.all');
+// });
+
+
+
+Route::get('/blogs', [BlogController::class, 'index'])->name('guest.blog.all');
+Route::get('/berita/{slug}', [BlogController::class, 'show'])->name('guest.blog.show');
+

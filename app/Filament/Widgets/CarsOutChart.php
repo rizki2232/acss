@@ -6,33 +6,33 @@ use Filament\Widgets\ChartWidget;
 use App\Models\CarMovement;
 use Illuminate\Support\Facades\DB;
 
-class CarsChart extends ChartWidget
+class CarsOutChart extends ChartWidget
 {
-    protected static ?string $heading = 'Mobil Masuk per Bulan';
+    protected static ?string $heading = 'Mobil Keluar per Bulan';
 
     protected function getData(): array
     {
-        // Ambil jumlah mobil masuk per bulan dari kolom moved_at
-        $data = CarMovement::selectRaw('MONTH(moved_at) as month, SUM(amount) as total')
-            ->where('type', 'in')
+        $year = now()->year;
+
+        $outData = CarMovement::selectRaw('MONTH(moved_at) as month, SUM(amount) as total')
+            ->where('type', 'out')
             ->whereYear('moved_at', now()->year)
             ->groupBy(DB::raw('MONTH(moved_at)'))
             ->pluck('total', 'month');
 
 
-        // Buat array jumlah untuk semua bulan (1-12)
-        $monthlyCounts = [];
+        $outCounts = [];
         for ($i = 1; $i <= 12; $i++) {
-            $monthlyCounts[] = $data->get($i, 0); // default ke 0 jika tidak ada data
+            $outCounts[] = $outData->get($i, 0);
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Mobil Masuk',
-                    'data' => $monthlyCounts,
-                    'borderColor' => 'rgba(75, 192, 192, 1)',
-                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'label' => 'Mobil Keluar',
+                    'data' => $outCounts,
+                    'borderColor' => 'rgba(255, 99, 132, 1)',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                 ],
             ],
             'labels' => [
