@@ -37,7 +37,8 @@ RUN if [ -f package.json ]; then npm install; fi
 # Laravel setup: .env, key generate, migrate fresh with seed
 RUN cp .env.example .env && \
     php artisan key:generate && \
-    npm run build && \
-    docker compose up --build
+    npm run build
+
+CMD docker compose up --build
 
 CMD php artisan serve --host=0.0.0.0 --port=8000
