@@ -20,4 +20,4 @@ RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     composer install
 
-CMD php artisan serve --host=0.0.0.0 --port=8010
+CMD php artisan serve --host=0.0.0.0 --port=8000

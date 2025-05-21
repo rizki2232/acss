@@ -4,7 +4,7 @@ pipeline {
     environment {
         APP_NAME = 'acs'
         CONTAINER_NAME = 'acs-running'
-        PORT = '8010'
+        PORT = '8000'
     }
 
     stages {
