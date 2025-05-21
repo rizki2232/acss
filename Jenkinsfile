@@ -2,7 +2,13 @@ pipeline {
     agent any
 
     environment {
+<<<<<<< HEAD
         DOCKER_IMAGE = 'acss'
+=======
+        APP_NAME = 'acs'
+        CONTAINER_NAME = 'acs-running'
+        PORT = '8000'
+>>>>>>> a152d75fec9c054f27e386c9ae4a50e710d31d8a
     }
 
     stages {

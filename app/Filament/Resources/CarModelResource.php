@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CarModelResource\Pages;
 use App\Filament\Resources\CarModelResource\RelationManagers;
 use App\Models\CarModel;
+use App\Models\Brand;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,13 +20,17 @@ class CarModelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('brand_id')
+                Forms\Components\Select::make('brand_id')
+                    ->relationship('brand', 'name')
+                    ->searchable()
                     ->required()
-                    ->numeric(),
+                    ->label('Brand'),
+
                 Forms\Components\TextInput::make('name')
                     ->required(),
             ]);
@@ -36,8 +41,10 @@ class CarModelResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('brand.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Brand')
+                    ->default('—') // untuk menghindari error jika null
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
