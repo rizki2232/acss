@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         APP_NAME = 'acs'
-        CONTAINER_NAME = 'laravel-running'
-        PORT = '8000'
+        CONTAINER_NAME = 'acs-running'
+        PORT = '8001'
     }
 
     stages {
@@ -15,18 +15,18 @@ pipeline {
             }
         }
 
-        // stage('Build Docker Image') {
-        //     steps {
-        //         echo 'Building Docker image...'
-        //         script {
-        //             try {
-        //                 sh "docker build -t $APP_NAME ."
-        //             } catch (e) {
-        //                 error "Docker build failed: ${e.message}"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image...'
+                script {
+                    try {
+                        sh "docker build -t $APP_NAME ."
+                    } catch (e) {
+                        error "Docker build failed: ${e.message}"
+                    }
+                }
+            }
+        }
 
         stage('Stop Old Container') {
             steps {
