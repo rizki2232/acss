@@ -46,7 +46,7 @@ pipeline {
 
         stage('Migrate Database') {
             steps {
-                sh 'docker exec myapp-container php artisan migrate --seed'
+                sh "docker exec $CONTAINER_NAME php artisan migrate --seed"
             }
         }
     }
