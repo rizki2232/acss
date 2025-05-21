@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'acs'
-        CONTAINER_NAME = 'acs-running'
-        PORT = '8000'
+        APP_NAME = 'acss'                  // Nama image
+        CONTAINER_NAME = 'acss-container'  // Nama container
+        PORT = '8000'                      // Port host:container
     }
 
     stages {
@@ -41,6 +41,12 @@ pipeline {
             steps {
                 echo 'Running new container...'
                 sh "docker run -d -p $PORT:8000 --name $CONTAINER_NAME $APP_NAME"
+            }
+        }
+
+        stage('Migrate Database') {
+            steps {
+                sh "docker exec $CONTAINER_NAME php artisan migrate --seed"
             }
         }
     }

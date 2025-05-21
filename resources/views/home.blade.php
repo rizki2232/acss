@@ -1,4 +1,5 @@
 <x-layouts.app>
+<<<<<<< HEAD
 <div class="bg-white">
   <!-- Hero Section -->
   <div class="relative bg-cover bg-center" style="background-image: url('/images/hero-bg.jpg'); height: 100vh;">
@@ -68,4 +69,9 @@
     </div>
   </div>
 </div>
+=======
+    <section class="max-w-7xl mx-auto mt-16 mb-12">
+        
+    </section>
+>>>>>>> 3642960f5bf913da94b7c5dac1c7641e040ed3a5
 </x-layouts.app>
