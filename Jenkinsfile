@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'acs'
-        CONTAINER_NAME = 'laravel-running'
-        PORT = '8000'
+        DOCKER_IMAGE = 'acss'
     }
 
     stages {
