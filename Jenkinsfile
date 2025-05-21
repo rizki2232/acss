@@ -2,7 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'acss'
+        APP_NAME = 'acss'                  // Nama image
+        CONTAINER_NAME = 'acss-container'  // Nama container
+        PORT = '8000'                      // Port host:container
     }
 
     stages {
