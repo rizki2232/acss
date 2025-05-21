@@ -43,6 +43,12 @@ pipeline {
                 sh "docker run -d -p $PORT:8000 --name $CONTAINER_NAME $APP_NAME"
             }
         }
+
+        stage('Migrate Database') {
+            steps {
+                sh 'docker exec myapp-container php artisan migrate --seed'
+            }
+        }
     }
 
     post {
