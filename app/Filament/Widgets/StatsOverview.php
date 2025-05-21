@@ -23,7 +23,7 @@ class StatsOverview extends BaseWidget
                 ->color('success')
                 ->chart([7, 3, 4, 6, 4, 5, 3])  // Ini bisa diganti dengan data chart yang lebih relevan
                 ->description('Total mobil yang masuk')
-                ->descriptionIcon('heroicon-M-truck'),
+                ->descriptionIcon('heroicon-m-truck'),
 
             Stat::make(label: 'Mobil Keluar', value: $totalMobilKeluar)
                 ->color('danger')
