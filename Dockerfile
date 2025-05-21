@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo pdo_mysql
+    libzip-dev \
+    libicu-dev \
+    && docker-php-ext-install pdo pdo_mysql zip intl
 
 COPY . .
 
