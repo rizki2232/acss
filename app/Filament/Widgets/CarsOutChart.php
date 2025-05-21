@@ -14,13 +14,12 @@ class CarsOutChart extends ChartWidget
     {
         $year = now()->year;
 
-        $outData = CarMovement::query()
-            ->selectRaw("strftime('%m', moved_at) as month, SUM(amount) as total")
+        $outData = CarMovement::selectRaw('MONTH(moved_at) as month, SUM(amount) as total')
             ->where('type', 'out')
             ->whereYear('moved_at', now()->year)
-            ->groupByRaw("strftime('%m', moved_at)")
-            ->orderByRaw("strftime('%m', moved_at)")
+            ->groupBy(DB::raw('MONTH(moved_at)'))
             ->pluck('total', 'month');
+
 
         $outCounts = [];
         for ($i = 1; $i <= 12; $i++) {
