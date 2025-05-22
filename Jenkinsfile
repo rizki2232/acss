@@ -23,6 +23,7 @@ pipeline {
             steps {
                 echo 'Stopping and removing existing containers...'
                 sh 'docker compose down'
+                sh ''
             }
         }
         stage('Docker Compose Build') {
