@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        COMPOSE_PROJECT_NAME = 'acs' // agar container seperti acss_app_1 dan acss_mysql_1
+        CONTAINER_NAME = 'acs'
         PORT = '8000'
     }
 
