@@ -5,17 +5,8 @@ pipeline {
         CONTAINER_NAME = 'acss'
         PORT = '80'
     }
-
-    options {
-        skipDefaultCheckout(true)
-    }
-
+    
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         checkout scm
-        //     }
-        // }
         stage('Clone Source') {
             steps {
                 echo 'Cloning repository...'
