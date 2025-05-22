@@ -25,9 +25,14 @@ pipeline {
 
         stage('Build & Run') {
             steps {
-                sh 'docker compose up -d --build'
+                sh './vendor/bin/sail up'
             }
         }
+        // stage('Build & Run') {
+        //     steps {
+        //         sh 'docker compose up -d --build'
+        //     }
+        // }
 
         // stage('Wait for MySQL') {
         //     steps {
@@ -41,15 +46,15 @@ pipeline {
         //     }
         // }
 
-        stage('Laravel Setup') {
-            steps {
-                sh '''
-                docker exec laravel-app cp .env.example .env
-                docker exec laravel-app php artisan key:generate
-                docker exec laravel-app php artisan migrate:fresh --seed --force
-                '''
-            }
-        }
+        // stage('Laravel Setup') {
+        //     steps {
+        //         sh '''
+        //         docker exec laravel-app cp .env.example .env
+        //         docker exec laravel-app php artisan key:generate
+        //         docker exec laravel-app php artisan migrate:fresh --seed --force
+        //         '''
+        //     }
+        // }
 
         // stage('Build Docker Image') {
         //     steps {
