@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'acss'                  // Nama image
-        CONTAINER_NAME = 'acss-container'  // Nama container
-        PORT = '8000'                      // Port host:container
+        COMPOSE_PROJECT_NAME = 'acs' // agar container seperti acss_app_1 dan acss_mysql_1
+        PORT = '8000'
     }
 
     stages {
@@ -97,6 +96,7 @@ pipeline {
         }
         failure {
             echo "❌ Deployment failed! Check logs for details."
+            sh 'docker compose logs'
         }
     }
 }

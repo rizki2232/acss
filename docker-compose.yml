@@ -31,8 +31,8 @@ services:
     networks:
       - laravel
 
-networks:
-  laravel:
-
 volumes:
   mysql-data:
+
+networks:
+  laravel:
