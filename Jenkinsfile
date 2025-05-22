@@ -14,6 +14,12 @@ pipeline {
             }
         }
 
+        stage('Build & Run') {
+            steps {
+                sh 'cp .env.example .env'
+            }
+        }
+
         stage('Clean Up') {
             steps {
                 sh '''
