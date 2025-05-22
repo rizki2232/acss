@@ -11,18 +11,18 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                deleteDir()
-                checkout scm
-            }
-        }
-        // stage('Clone Source') {
+        // stage('Checkout') {
         //     steps {
-        //         echo 'Cloning repository...'
-        //         git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
+        //         checkout scm
         //     }
         // }
+        stage('Clone Source') {
+            steps {
+                deleteDir()
+                echo 'Cloning repository...'
+                git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
+            }
+        }
         stage('Copy .env') {
             steps {
                 echo 'Copy environment file...'
