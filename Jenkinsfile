@@ -25,6 +25,16 @@ pipeline {
                 sh 'docker compose up -d --build'
             }
         }
+        stage('Laravel setup') {
+            steps {
+                echo 'Running Laravel setup...'
+                sh 'composer install'
+                sh 'npm install'
+                sh 'php artisan key:generate'
+                sh 'php artisan migrate:fresh --seed'
+                sh 'npm run build'
+            }
+        }
     }
 
     post {
