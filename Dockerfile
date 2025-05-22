@@ -29,7 +29,7 @@ WORKDIR /var/www
 COPY . .
 
 # Install dependensi Laravel
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install
 
 # Install frontend (opsional)
 RUN if [ -f package.json ]; then npm install && npm run build; fi
