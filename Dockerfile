@@ -34,9 +34,9 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 # Install frontend (opsional)
 RUN if [ -f package.json ]; then npm install && npm run build; fi
 
-# Set permission
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+# # Set permission
+# RUN chown -R www-data:www-data /var/www \
+#     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # Laravel setup: .env, key generate, migrate fresh with seed
 # RUN cp .env.example .env && \
