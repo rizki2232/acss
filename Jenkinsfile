@@ -9,6 +9,7 @@ pipeline {
     stages {
         stage('Clone Source') {
             steps {
+                sh 'sudo chown -R jenkins:jenkins /var/lib/jenkins/workspace/acss'
                 echo 'Cloning repository...'
                 git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
             }
