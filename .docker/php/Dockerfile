@@ -24,7 +24,7 @@ docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/inclu
 docker-php-ext-install gd
 
 # redis
-# RUN pecl install redis && docker-php-ext-enable redis
+RUN pecl install redis && docker-php-ext-enable redis
 
 # pcov
 # RUN pecl install pcov && docker-php-ext-enable pcov
