@@ -5,7 +5,7 @@ pipeline {
         CONTAINER_NAME = 'acss'
         PORT = '80'
     }
-    
+
     stages {
         stage('Clone Source') {
             steps {
@@ -34,11 +34,11 @@ pipeline {
         stage('Laravel setup') {
             steps {
                 echo 'Running Laravel setup...'
-                sh 'composer install'
-                sh 'npm install'
-                sh 'php artisan key:generate'
-                sh 'php artisan migrate:fresh --seed'
-                sh 'npm run build'
+                sh 'docker-compose exec -T php composer install'
+                sh 'docker-compose exec -T php npm install'
+                sh 'docker-compose exec -T php php artisan key:generate'
+                sh 'docker-compose exec -T php php artisan migrate:fresh --seed'
+                sh 'docker-compose exec -T php npm run build'
             }
         }
     }
