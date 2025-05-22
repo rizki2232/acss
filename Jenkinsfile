@@ -14,31 +14,26 @@ pipeline {
             }
         }
 
-        stage('Copy .env') {
-            steps {
-                sh 'cp .env.example .env'
-            }
-        }
+        // stage('Copy .env') {
+        //     steps {
+        //         sh 'cp .env.example .env'
+        //     }
+        // }
 
-        stage('Clean Up') {
-            steps {
-                sh '''
-                docker compose down || true
-                docker rm -f $(docker ps -aq) || true
-                '''
-            }
-        }
+        // stage('Clean Up') {
+        //     steps {
+        //         sh '''
+        //         docker compose down || true
+        //         docker rm -f $(docker ps -aq) || true
+        //         '''
+        //     }
+        // }
 
         stage('Build & Run') {
             steps {
-                sh './vendor/bin/sail up'
+                sh 'docker compose up -d --build'
             }
         }
-        // stage('Build & Run') {
-        //     steps {
-        //         sh 'docker compose up -d --build'
-        //     }
-        // }
 
         // stage('Wait for MySQL') {
         //     steps {
