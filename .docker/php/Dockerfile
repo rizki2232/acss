@@ -24,10 +24,10 @@ docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/inclu
 docker-php-ext-install gd
 
 # redis
-# RUN pecl install redis && docker-php-ext-enable redis
+RUN pecl install redis && docker-php-ext-enable redis
 
 # pcov
-# RUN pecl install pcov && docker-php-ext-enable pcov
+RUN pecl install pcov && docker-php-ext-enable pcov
 
 # Xdebug
 # RUN pecl install xdebug \
@@ -50,7 +50,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 RUN composer config --global process-timeout 3600
-# RUN composer global require "laravel/installer"
+RUN composer global require "laravel/installer"
 
 WORKDIR /root
 RUN git clone https://github.com/seebi/dircolors-solarized
