@@ -30,9 +30,9 @@ RUN pecl install redis && docker-php-ext-enable redis
 RUN pecl install pcov && docker-php-ext-enable pcov
 
 # Xdebug
-RUN pecl install xdebug \
-&& docker-php-ext-enable xdebug \
-&& echo ";zend_extension=xdebug" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# RUN pecl install xdebug \
+# && docker-php-ext-enable xdebug \
+# && echo ";zend_extension=xdebug" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Node.js, NPM, Yarn
 RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
@@ -50,7 +50,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 RUN composer config --global process-timeout 3600
-# RUN composer global require "laravel/installer"
+RUN composer global require "laravel/installer"
 
 WORKDIR /root
 RUN git clone https://github.com/seebi/dircolors-solarized
