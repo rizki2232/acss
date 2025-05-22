@@ -39,6 +39,4 @@ RUN cp .env.example .env && \
     php artisan key:generate && \
     npm run build
 
-RUN docker compose up --build
-
 CMD php artisan serve --host=0.0.0.0 --port=8000

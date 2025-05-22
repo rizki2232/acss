@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'acss'                  // Nama image
-        CONTAINER_NAME = 'acss-container'  // Nama container
-        PORT = '8000'                      // Port host:container
+        COMPOSE_PROJECT_NAME = 'acss' // agar container seperti acss_app_1 dan acss_mysql_1
+        PORT = '8000'
     }
 
     stages {
@@ -17,36 +16,22 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                echo 'Building Docker image...'
-                script {
-                    try {
-                        sh "docker build -t $APP_NAME ."
-                    } catch (e) {
-                        error "Docker build failed: ${e.message}"
-                    }
-                }
+                echo 'Building Docker image with Compose...'
+                sh 'docker compose build'
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Up Containers') {
             steps {
-                echo 'Stopping and removing old container (if exists)...'
-                script {
-                    sh "docker ps -q --filter name=$CONTAINER_NAME | grep -q . && docker rm -f $CONTAINER_NAME || echo 'No existing container to stop.'"
-                }
-            }
-        }
-
-        stage('Run New Container') {
-            steps {
-                echo 'Running new container...'
-                sh "docker run -d -p $PORT:8000 --name $CONTAINER_NAME $APP_NAME"
+                echo 'Starting containers...'
+                sh 'docker compose up -d'
             }
         }
 
         stage('Migrate Database') {
             steps {
-                sh "docker exec $CONTAINER_NAME php artisan migrate:fresh --seed"
+                echo 'Migrating and seeding database...'
+                sh 'docker compose exec app php artisan migrate:fresh --seed'
             }
         }
     }
@@ -57,6 +42,7 @@ pipeline {
         }
         failure {
             echo "❌ Deployment failed! Check logs for details."
+            sh 'docker compose logs'
         }
     }
 }

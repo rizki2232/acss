@@ -18,6 +18,9 @@ services:
       DB_DATABASE: laravel
       DB_USERNAME: root
       DB_PASSWORD: root
+    networks:
+      - laravel
+    working_dir: /var/www
 
   mysql:
     image: mysql:8.0
@@ -30,6 +33,11 @@ services:
       MYSQL_DATABASE: laravel
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - laravel
 
 volumes:
   mysql-data:
+
+networks:
+  laravel:
