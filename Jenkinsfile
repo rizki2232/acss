@@ -19,6 +19,12 @@ pipeline {
                 sh 'cp .env.example .env'
             }
         }
+        stage('Docker Compose Down') {
+            steps {
+                echo 'Stopping and removing existing containers...'
+                sh 'docker compose down'
+            }
+        }
         stage('Docker Compose Build') {
             steps {
                 echo 'Building Docker images...'
