@@ -10,6 +10,6 @@ mkdir -p /sessions
 
 chmod 777 /sessions
 
-chown -R jenkins:jenkins /var/lib/jenkins/workspace/acss
+sudo chown -R /var/lib/jenkins/workspace/acss
 
 exec "$@"
