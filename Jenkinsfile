@@ -80,14 +80,14 @@ pipeline {
         //     }
         // }
 
-        stage('Laravel setup') {
-            steps {
-                sh "docker exec $CONTAINER_NAME cp .env.example .env"
-                sh "docker exec $CONTAINER_NAME php artisan key:generate"
-                sh "docker exec $CONTAINER_NAME php artisan storage:link"
-                sh "docker exec $CONTAINER_NAME php artisan migrate:fresh --seed"
-            }
-        }
+        // stage('Laravel setup') {
+        //     steps {
+        //         sh "docker exec $CONTAINER_NAME cp .env.example .env"
+        //         sh "docker exec $CONTAINER_NAME php artisan key:generate"
+        //         sh "docker exec $CONTAINER_NAME php artisan storage:link"
+        //         sh "docker exec $CONTAINER_NAME php artisan migrate:fresh --seed"
+        //     }
+        // }
     }
 
     post {
