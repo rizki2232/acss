@@ -70,3 +70,14 @@ services:
         depends_on:
             - php
         restart: unless-stopped
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        restart: always
+        depends_on:
+            - db
+        environment:
+            PMA_HOST: db
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+        ports:
+            - "8090:80"
