@@ -18,7 +18,6 @@ pipeline {
         // }
         stage('Clone Source') {
             steps {
-                deleteDir()
                 echo 'Cloning repository...'
                 git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
             }
