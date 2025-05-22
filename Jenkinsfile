@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        stage('Build & Run') {
+        stage('Copy .env') {
             steps {
                 sh 'cp .env.example .env'
             }
