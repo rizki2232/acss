@@ -62,8 +62,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN mkdir -p /var/log/supervisor
 
-# Set permission
-RUN chown -R www-data:www-data /var/www \
+# Set permission dan pastikan direktori ada
+RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 #entrypoint
