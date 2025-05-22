@@ -6,13 +6,23 @@ pipeline {
         PORT = '80'
     }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
-        stage('Clone Source') {
+        stage('Checkout') {
             steps {
-                echo 'Cloning repository...'
-                git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
+                deleteDir()
+                checkout scm
             }
         }
+        // stage('Clone Source') {
+        //     steps {
+        //         echo 'Cloning repository...'
+        //         git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
+        //     }
+        // }
         stage('Copy .env') {
             steps {
                 echo 'Copy environment file...'
