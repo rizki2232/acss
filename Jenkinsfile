@@ -29,17 +29,17 @@ pipeline {
             }
         }
 
-        stage('Wait for MySQL') {
-            steps {
-                sh '''
-                echo "Waiting for MySQL to be ready..."
-                until docker exec laravel-mysql mysql -ularavel -psecret -e "SELECT 1"; do
-                  echo "Waiting..."
-                  sleep 3
-                done
-                '''
-            }
-        }
+        // stage('Wait for MySQL') {
+        //     steps {
+        //         sh '''
+        //         echo "Waiting for MySQL to be ready..."
+        //         until docker exec laravel-mysql mysql -u root -p root -e "SELECT 1"; do
+        //           echo "Waiting..."
+        //           sleep 3
+        //         done
+        //         '''
+        //     }
+        // }
 
         stage('Laravel Setup') {
             steps {
