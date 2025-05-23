@@ -15,9 +15,10 @@ class BlogController extends Controller
         return view('blog.all-post', compact('posts'));
     }
 
-    public function show($slug)
-    {
-        $post = Posts::where('slug', $slug)->firstOrFail();
-        return view('blog.detailPost', compact('post'));
-    }
+    public function show($id)
+{
+    $post = Posts::where('id_posts', $id)->firstOrFail();
+    return view('blog.detailPost', compact('post'));
+}
+
 }

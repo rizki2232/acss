@@ -14,4 +14,9 @@ class Posts extends Model
         'published_at',
         'img',
     ];
+
+    // Konversi ke Carbon
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 }

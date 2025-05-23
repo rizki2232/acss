@@ -19,5 +19,6 @@ Route::controller(GuestController::class)->group(function() {
 
 
 Route::get('/blogs', [BlogController::class, 'index'])->name('guest.blog.all');
-Route::get('/berita/{slug}', [BlogController::class, 'show'])->name('guest.blog.show');
+Route::get('/post/{id}', [BlogController::class, 'show'])->name('post.show');
+
 
