@@ -2,50 +2,50 @@ pipeline {
     agent any
 
     environment {
-        CONTAINER_NAME = 'acss'
-        PORT = '80'
+        REPOSITORY_NAME = 'https://github.com/rizki2232/acss.git'
+        BRANCH = 'main'
     }
 
     stages {
-        stage('Clone Source') {
+        stage('Build') {
             steps {
-                echo 'Cloning repository...'
-                git branch: 'main', url: 'https://github.com/rizki2232/acss.git'
+                script {
+                    // Build the project
+                    echo 'Building...'
+                    git branch: "$BRANCH", url: "$REPOSITORY_NAME"
+                    sh 'cp .env.example .env'
+                    sh 'docker compose down'
+                    sh 'docker compose up -d --build'
+                    sh 'docker-compose exec -T php composer install'
+                    sh 'docker-compose exec -T php npm install'
+                    sh 'docker-compose exec -T php php artisan key:generate'
+                    sh 'docker-compose exec -T php php artisan migrate:fresh --seed'
+                    sh 'docker-compose exec -T php npm run build'
+                }
             }
         }
-        stage('Copy .env') {
+        stage('Test') {
             steps {
-                echo 'Copy environment file...'
-                sh 'cp .env.example .env'
+                script {
+                    // Run tests
+                    echo 'Testing...'
+                    sh 'docker-compose exec -T php php artisan test'
+                }
             }
         }
-        stage('Docker Compose Down') {
+        stage('Deploy') {
             steps {
-                echo 'Stopping and removing existing containers...'
-                sh 'docker compose down'
-            }
-        }
-        stage('Docker Compose Build') {
-            steps {
-                echo 'Building Docker images...'
-                sh 'docker compose up -d --build'
-            }
-        }
-        stage('Laravel setup') {
-            steps {
-                echo 'Running Laravel setup...'
-                sh 'docker-compose exec -T php composer install'
-                sh 'docker-compose exec -T php npm install'
-                sh 'docker-compose exec -T php php artisan key:generate'
-                sh 'docker-compose exec -T php php artisan migrate:fresh --seed'
-                sh 'docker-compose exec -T php npm run build'
+                script {
+                    // Deploy the project
+                    echo 'Deploying...'
+                }
             }
         }
     }
 
     post {
         success {
-            echo "✅ Deployment successful. Visit: http://<ip-server>:$PORT"
+            echo "✅ Deployment successful. Visit: http://<ip-server>"
         }
         failure {
             echo "❌ Deployment failed! Check logs for details."
